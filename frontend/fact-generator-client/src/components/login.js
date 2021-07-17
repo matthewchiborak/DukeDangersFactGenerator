@@ -6,13 +6,27 @@ const Login = ({ setToken }) => {
 	const [password, setPassword] = useState();
 	
 	const loginUser = async (credentials) => {
+		
+		var formBody = [];
+		var encodedKey = encodeURIComponent("username");
+		var encodedValue = encodeURIComponent(username);
+		formBody.push(encodedKey + "=" + encodedValue);
+		var encodedKey2 = encodeURIComponent("password");
+		var encodedValue2 = encodeURIComponent(password);
+		formBody.push(encodedKey2 + "=" + encodedValue2);
+		
+		formBody = formBody.join("&");
+		
 		const res = await fetch(
 			process.env.REACT_APP_API_ROUTE_LOGIN, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json'
+				//'Content-type': 'application/json'
+				'Content-Type': 'application/x-www-form-urlencoded'
 			},
-			body: JSON.stringify(credentials)
+			body: formBody
+			//body: JSON.stringify(credentials)
+			//body: { "username": username, "password": password }
 		})
 		
 		const data = await res.json();
