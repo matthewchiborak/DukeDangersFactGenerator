@@ -1,44 +1,47 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
 import InputForm from './components/input-form';
+import Button from './components/button';
 import Display from './components/display'
-import Home from './components/home';
+import Login from './components/login';
 import FactPage from './components/fact-page';
+import useToken from './useToken';
+
 
 function App() {
 
-	const [facts, setFacts] = useState([])
+	//const [token, setToken] = useState();
+	const { token, setToken } = useToken(); 
 	
-	//useEffect is for doing something when page loads. Thats not needed here but in case you want to change it
-		
-	const createFact = async (name) => {
-		const res = await fetch(
-		'http://localhost:3000/fact', {
-			method: 'POST',
-			headers: {
-				'Content-type': 'application/json'
-			},
-			body: '{"name": "' + name + '"}'
-		}
-		);
-		
-		const data = await res.json();
-		setFacts([...facts, data]);
+	const logout = () => {
+		setToken("");
 	}
 	
-	const clearFacts = () => {
-		setFacts([]); 
+	const printToken = () => {
+		console.log(token);
 	}
-	
-  return (
-	<Router>
+		
+	if(!token) {
+		return (
 		<div className="App">
-			<Route path='/login' exact component={Home} />
-			<Route path='/' exact component={FactPage} />
+			<Login setToken={setToken} />
 		</div>
+		);
+	}
+	
+	//If got to here then token has been set
+  return (
+  <div className="App">
+	<Button onClick={() => logout()} color='red' backgroundColor='black' text="Logout" /> 
+	<Button onClick={() => printToken()} color='red' backgroundColor='black' text="Token" /> 
+	<Router>
+		<Switch>
+			<Route path='/' exact component={FactPage} />
+		</Switch>
 	</Router>
+	</div>
   );
 }
 
