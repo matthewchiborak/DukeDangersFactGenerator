@@ -7,7 +7,7 @@ const Login = ({ setToken }) => {
 	
 	const loginUser = async (credentials) => {
 		const res = await fetch(
-			'http://localhost:3000/login', {
+			process.env.REACT_APP_API_ROUTE_LOGIN, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json'

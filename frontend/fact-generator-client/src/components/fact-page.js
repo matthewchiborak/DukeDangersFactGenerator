@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom'
 import InputForm from './input-form';
 import Display from './display';
 
-const FactPage = () => {
+const FactPage = ( { authToken } ) => {
 	
 	const [facts, setFacts] = useState([])
-		
-	const createFact = async (name) => {
+	
+	const createFact = async (name) => {	
 		const res = await fetch(
-		'http://localhost:3000/fact', {
+		process.env.REACT_APP_API_ROUTE_FACT, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json'
+				'Content-type': 'application/json',
+				'Authorization': authToken
 			},
 			body: '{"name": "' + name + '"}'
 		}

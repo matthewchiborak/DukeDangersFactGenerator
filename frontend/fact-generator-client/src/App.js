@@ -9,6 +9,7 @@ import Login from './components/login';
 import FactPage from './components/fact-page';
 import useToken from './useToken';
 
+require('dotenv').config();
 
 function App() {
 
@@ -19,10 +20,6 @@ function App() {
 		setToken("");
 	}
 	
-	const printToken = () => {
-		console.log(token);
-	}
-		
 	if(!token) {
 		return (
 		<div className="App">
@@ -35,10 +32,9 @@ function App() {
   return (
   <div className="App">
 	<Button onClick={() => logout()} color='red' backgroundColor='black' text="Logout" /> 
-	<Button onClick={() => printToken()} color='red' backgroundColor='black' text="Token" /> 
 	<Router>
 		<Switch>
-			<Route path='/' exact component={FactPage} />
+			<Route path='/' exact> <FactPage authToken={token} /></Route>
 		</Switch>
 	</Router>
 	</div>
